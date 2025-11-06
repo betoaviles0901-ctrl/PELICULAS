@@ -1,1 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú de Películas Interactivo</title>
+    <style>
+        /* --- CSS (Estilos) --- */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #141414;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #E50914; /* Color de Netflix */
+        }
+
+        /* Estilos de los botones de filtro */
+        #genre-filters {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        #genre-filters button {
+            background-color: #333;
+            color: white;
+            border: 2px solid #555;
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        #genre-filters button:hover {
+            background-color: #E50914;
+            border-color: #E50914;
+            transform: scale(1.05);
+        }
+
+        #genre-filters button.active {
+            background-color: #E50914;
+            border-color: #E50914;
+            font-weight: bold;
+        }
+
+        /* Contenedor de las películas (Grid) */
+        #movie-list {
+            display: grid;
+            /* Crea columnas de tamaño flexible, pero con un mínimo de 220px */
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 25px;
+        }
+
+        /* Estilo de cada tarjeta de película */
+        .movie-card {
+            background-color: #222;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .movie-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.7);
+        }
+
+        .movie-card img {
+            width: 100%;
+            height: 330px; /* Altura fija para la imagen */
+            object-fit: cover; /* Asegura que la imagen cubra el espacio */
+        }
+
+        .movie-info {
+            padding: 15px;
+        }
+
+        .movie-info h3 {
+            font-size: 1.2rem;
+            margin: 0 0 10px 0;
+        }
+
+        .movie-info p {
+            font-size: 0.9rem;
+            color: #aaa;
+            margin: 0;
+        }
+
+        /* Clase para ocultar películas */
+        .movie-card.hidden {
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Catálogo de Películas</h1>
+
+        <div id="genre-filters">
+            <button class="filter-btn active" data-genre="all">Todas</button>
+            <button class="filter-btn" data-genre="accion">Acción</button>
+            <button class="filter-btn" data-genre="comedia">Comedia</button>
+            <button class="filter-btn" data-genre="scifi">Ciencia Ficción</button>
+            <button class="filter-btn" data-genre="drama">Drama</button>
+        </div>
+
+        <div id="movie-list">
+
+            <div class="movie-card" data-genre="accion">
+                <img src="https://via.placeholder.com/300x450.png?text=John+Wick" alt="John Wick">
+                <div class="movie-info">
+                    <h3>John Wick</h3>
+                    <p>Género: Acción</p>
+                </div>
+            </div>
+
+            <div class="movie-card" data-genre="scifi">
+                <img src="https://via.placeholder.com/300x450.png?text=Dune" alt="Dune">
+                <div class="movie-info">
+                    <h3>Dune</h3>
+                    <p>Género: Ciencia Ficción</p>
+                </div>
+            </div>
+
+            <div class="movie-card" data-genre="comedia">
+                <img src="https://via.placeholder.com/300x450.png?text=Superbad" alt="Superbad">
+                <div class="movie-info">
+                    <h3>Superbad</h3>
+                    <p>Género: Comedia</p>
+                </div>
+            </div>
+
+            <div class="movie-card" data-genre="drama">
+                <img src="https://via.placeholder.com/300x450.png?text=Oppenheimer" alt="Oppenheimer">
+                <div class="movie-info">
+                    <h3>Oppenheimer</h3>
+                    <p>Género: Drama</p>
+                </div>
+            </div>
+
+            <div class="movie-card" data-genre="accion">
+                <img src="https://via.placeholder.com/300x450.png?text=Mad+Max" alt="Mad Max">
+                <div class="movie-info">
+                    <h3>Mad Max: Fury Road</h3>
+                    <p>Género: Acción</p>
+                </div>
+            </div>
+
+            <div class="movie-card" data-genre="scifi">
+                <img src="https://via.placeholder.com/300x450.png?text=Blade+Runner" alt="Blade Runner 2049">
+                <div class="movie-info">
+                    <h3>Blade Runner 2049</h3>
+                    <p>Género: Ciencia Ficción</p>
+                </div>
+            </div>
+
+            <div class="movie-card" data-genre="comedia">
+                <img src="https://via.placeholder.com/300x450.png?text=Shrek" alt="Shrek">
+                <div class="movie-info">
+                    <h3>Shrek</h3>
+                    <p>Género: Comedia</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Espera a que todo el contenido HTML esté cargado
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            // 1. Obtener todos los botones de filtro
+            const filterButtons = document.querySelectorAll("#genre-filters .filter-btn");
+            
+            // 2. Obtener todas las tarjetas de películas
+            const movieCards = document.querySelectorAll("#movie-list .movie-card");
+
+            // 3. Añadir un "escuchador" de clics a cada botón
+            filterButtons.forEach(button => {
+                button.addEventListener("click", function() {
+                    
+                    // --- Lógica de filtrado ---
+
+                    // A. Resaltar el botón activo
+                    // Primero, quita la clase 'active' de todos los botones
+                    filterButtons.forEach(btn => btn.classList.remove("active"));
+                    // Luego, añade 'active' solo al botón que se ha pulsado
+                    this.classList.add("active");
+
+                    // B. Obtener el género seleccionado del atributo "data-genre"
+                    const selectedGenre = this.getAttribute("data-genre");
+
+                    // C. Recorrer cada tarjeta de película y mostrar/ocultar
+                    movieCards.forEach(card => {
+                        const cardGenre = card.getAttribute("data-genre");
+
+                        // Si el género seleccionado es "all" O si el género de la tarjeta coincide
+                        if (selectedGenre === "all" || selectedGenre === cardGenre) {
+                            card.classList.remove("hidden"); // Muestra la tarjeta
+                        } else {
+                            card.classList.add("hidden"); // Oculta la tarjeta
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
 
