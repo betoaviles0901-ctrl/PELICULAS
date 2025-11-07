@@ -3,221 +3,453 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menú de Películas Interactivo</title>
+    <title>Formulario de Registro</title>
     <style>
-        /* --- CSS (Estilos) --- */
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #141414;
-            color: #ffffff;
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --success-color: #4cc9f0;
+            --danger-color: #f72585;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --gray-color: #6c757d;
+        }
+        
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             padding: 20px;
         }
-
+        
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        h1 {
-            text-align: center;
-            color: #E50914; /* Color de Netflix */
-        }
-
-        /* Estilos de los botones de filtro */
-        #genre-filters {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        #genre-filters button {
-            background-color: #333;
-            color: white;
-            border: 2px solid #555;
-            padding: 10px 20px;
-            margin: 5px;
-            font-size: 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s;
-        }
-
-        #genre-filters button:hover {
-            background-color: #E50914;
-            border-color: #E50914;
-            transform: scale(1.05);
-        }
-
-        #genre-filters button.active {
-            background-color: #E50914;
-            border-color: #E50914;
-            font-weight: bold;
-        }
-
-        /* Contenedor de las películas (Grid) */
-        #movie-list {
-            display: grid;
-            /* Crea columnas de tamaño flexible, pero con un mínimo de 220px */
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 25px;
-        }
-
-        /* Estilo de cada tarjeta de película */
-        .movie-card {
-            background-color: #222;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .movie-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.7);
-        }
-
-        .movie-card img {
             width: 100%;
-            height: 330px; /* Altura fija para la imagen */
-            object-fit: cover; /* Asegura que la imagen cubra el espacio */
+            max-width: 800px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
         }
-
-        .movie-info {
-            padding: 15px;
+        
+        .header {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 25px;
+            text-align: center;
         }
-
-        .movie-info h3 {
-            font-size: 1.2rem;
-            margin: 0 0 10px 0;
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
         }
-
-        .movie-info p {
-            font-size: 0.9rem;
-            color: #aaa;
-            margin: 0;
+        
+        .header p {
+            opacity: 0.9;
         }
-
-        /* Clase para ocultar películas */
-        .movie-card.hidden {
+        
+        .form-container {
+            padding: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+        
+        .required::after {
+            content: " *";
+            color: var(--danger-color);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e1e5ee;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+        
+        textarea.form-control {
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        .radio-group, .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 5px;
+        }
+        
+        .radio-option, .checkbox-option {
+            display: flex;
+            align-items: center;
+        }
+        
+        .radio-option input, .checkbox-option input {
+            margin-right: 8px;
+        }
+        
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236c757d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 16px;
+            padding-right: 45px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 14px 30px;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+        
+        .form-footer {
+            margin-top: 30px;
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #e1e5ee;
+        }
+        
+        .form-footer p {
+            color: var(--gray-color);
+            margin-bottom: 15px;
+        }
+        
+        .error-message {
+            color: var(--danger-color);
+            font-size: 14px;
+            margin-top: 5px;
             display: none;
         }
-
+        
+        .form-control.error {
+            border-color: var(--danger-color);
+        }
+        
+        .success-message {
+            display: none;
+            background-color: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .form-container {
+                padding: 20px;
+            }
+        }
     </style>
 </head>
 <body>
-
     <div class="container">
-        <h1>Catálogo de Películas</h1>
-
-        <div id="genre-filters">
-            <button class="filter-btn active" data-genre="all">Todas</button>
-            <button class="filter-btn" data-genre="accion">Acción</button>
-            <button class="filter-btn" data-genre="comedia">Comedia</button>
-            <button class="filter-btn" data-genre="scifi">Ciencia Ficción</button>
-            <button class="filter-btn" data-genre="drama">Drama</button>
+        <div class="header">
+            <h1>Formulario de Registro</h1>
+            <p>Complete todos los campos requeridos para registrarse</p>
         </div>
-
-        <div id="movie-list">
-
-            <div class="movie-card" data-genre="accion">
-                <img src="https://upload.wikimedia.org/wikipedia/en/9/98/John_Wick_TeaserPoster.jpg" alt="John Wick">
-                <div class="movie-info">
-                    <h3>John Wick</h3>
-                    <p>Género: Acción</p>
-                </div>
+        
+        <div class="form-container">
+            <div class="success-message" id="successMessage">
+                ¡Formulario enviado correctamente! Nos pondremos en contacto contigo pronto.
             </div>
-
-            <div class="movie-card" data-genre="scifi">
-                <img src="https://upload.wikimedia.org/wikipedia/en/8/8e/Dune_Part_One_Official_Poster.jpg" alt="Dune">
-                <div class="movie-info">
-                    <h3>Dune</h3>
-                    <p>Género: Ciencia Ficción</p>
+            
+            <form id="registrationForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName" class="required">Nombre</label>
+                        <input type="text" id="firstName" class="form-control" placeholder="Ingrese su nombre">
+                        <div class="error-message" id="firstNameError">Por favor, ingrese su nombre</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="lastName" class="required">Apellidos</label>
+                        <input type="text" id="lastName" class="form-control" placeholder="Ingrese sus apellidos">
+                        <div class="error-message" id="lastNameError">Por favor, ingrese sus apellidos</div>
+                    </div>
                 </div>
-            </div>
-
-            <div class="movie-card" data-genre="comedia">
-                <img src="https://upload.wikimedia.org/wikipedia/en/b/b1/Superbad_Poster.png" alt="Superbad">
-                <div class="movie-info">
-                    <h3>Superbad</h3>
-                    <p>Género: Comedia</p>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email" class="required">Correo Electrónico</label>
+                        <input type="email" id="email" class="form-control" placeholder="ejemplo@correo.com">
+                        <div class="error-message" id="emailError">Por favor, ingrese un correo electrónico válido</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone" class="required">Teléfono</label>
+                        <input type="tel" id="phone" class="form-control" placeholder="Ingrese su número de teléfono">
+                        <div class="error-message" id="phoneError">Por favor, ingrese un número de teléfono válido</div>
+                    </div>
                 </div>
-            </div>
-
-            <div class="movie-card" data-genre="drama">
-                <img src="https://upload.wikimedia.org/wikipedia/en/4/45/Oppenheimer_-_Theatrical_Poster.jpg" alt="Oppenheimer">
-                <div class="movie-info">
-                    <h3>Oppenheimer</h3>
-                    <p>Género: Drama</p>
+                
+                <div class="form-group">
+                    <label for="address">Dirección</label>
+                    <input type="text" id="address" class="form-control" placeholder="Ingrese su dirección completa">
                 </div>
-            </div>
-
-            <div class="movie-card" data-genre="accion">
-                <img src="https://upload.wikimedia.org/wikipedia/en/6/6e/Mad_Max_Fury_Road.jpg" alt="Mad Max">
-                <div class="movie-info">
-                    <h3>Mad Max: Fury Road</h3>
-                    <p>Género: Acción</p>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="city">Ciudad</label>
+                        <input type="text" id="city" class="form-control" placeholder="Ingrese su ciudad">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="postalCode">Código Postal</label>
+                        <input type="text" id="postalCode" class="form-control" placeholder="Código postal">
+                    </div>
                 </div>
-            </div>
-
-            <div class="movie-card" data-genre="scifi">
-                <img src="https://upload.wikimedia.org/wikipedia/en/9/9a/Blade_Runner_2049_poster.png" alt="Blade Runner 2049">
-                <div class="movie-info">
-                    <h3>Blade Runner 2049</h3>
-                    <p>Género: Ciencia Ficción</p>
+                
+                <div class="form-group">
+                    <label for="country" class="required">País</label>
+                    <select id="country" class="form-control">
+                        <option value="">Seleccione un país</option>
+                        <option value="es">España</option>
+                        <option value="mx">México</option>
+                        <option value="ar">Argentina</option>
+                        <option value="co">Colombia</option>
+                        <option value="pe">Perú</option>
+                        <option value="cl">Chile</option>
+                        <option value="us">Estados Unidos</option>
+                        <option value="otro">Otro</option>
+                    </select>
+                    <div class="error-message" id="countryError">Por favor, seleccione un país</div>
                 </div>
-            </div>
-
-            <div class="movie-card" data-genre="comedia">
-                <img src="https://upload.wikimedia.org/wikipedia/en/3/39/Shrek_poster.JPG" alt="Shrek">
-                <div class="movie-info">
-                    <h3>Shrek</h3>
-                    <p>Género: Comedia</p>
+                
+                <div class="form-group">
+                    <label class="required">Género</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="male" name="gender" value="male">
+                            <label for="male">Masculino</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="female" name="gender" value="female">
+                            <label for="female">Femenino</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="other" name="gender" value="other">
+                            <label for="other">Otro</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="preferNot" name="gender" value="preferNot">
+                            <label for="preferNot">Prefiero no decir</label>
+                        </div>
+                    </div>
+                    <div class="error-message" id="genderError">Por favor, seleccione una opción</div>
                 </div>
+                
+                <div class="form-group">
+                    <label class="required">Intereses</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="tech" name="interests" value="tech">
+                            <label for="tech">Tecnología</label>
+                        </div>
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="sports" name="interests" value="sports">
+                            <label for="sports">Deportes</label>
+                        </div>
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="music" name="interests" value="music">
+                            <label for="music">Música</label>
+                        </div>
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="travel" name="interests" value="travel">
+                            <label for="travel">Viajes</label>
+                        </div>
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="reading" name="interests" value="reading">
+                            <label for="reading">Lectura</label>
+                        </div>
+                    </div>
+                    <div class="error-message" id="interestsError">Por favor, seleccione al menos un interés</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Mensaje</label>
+                    <textarea id="message" class="form-control" placeholder="Escriba su mensaje aquí..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <button type="submit" class="btn btn-block">Enviar Formulario</button>
+                </div>
+            </form>
+            
+            <div class="form-footer">
+                <p>Al enviar este formulario, aceptas nuestros <a href="#">Términos y Condiciones</a> y nuestra <a href="#">Política de Privacidad</a>.</p>
             </div>
-
         </div>
     </div>
 
     <script>
-        // Espera a que todo el contenido HTML esté cargado
-        document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
             
-            // 1. Obtener todos los botones de filtro
-            const filterButtons = document.querySelectorAll("#genre-filters .filter-btn");
+            // Resetear mensajes de error
+            resetErrors();
             
-            // 2. Obtener todas las tarjetas de películas
-            const movieCards = document.querySelectorAll("#movie-list .movie-card");
-
-            // 3. Añadir un "escuchador" de clics a cada botón
-            filterButtons.forEach(button => {
-                button.addEventListener("click", function() {
-                    
-                    // --- Lógica de filtrado ---
-
-                    // A. Resaltar el botón activo
-                    // Primero, quita la clase 'active' de todos los botones
-                    filterButtons.forEach(btn => btn.classList.remove("active"));
-                    // Luego, añade 'active' solo al botón que se ha pulsado
-                    this.classList.add("active");
-
-                    // B. Obtener el género seleccionado del atributo "data-genre"
-                    const selectedGenre = this.getAttribute("data-genre");
-
-                    // C. Recorrer cada tarjeta de película y mostrar/ocultar
-                    movieCards.forEach(card => {
-                        const cardGenre = card.getAttribute("data-genre");
-
-                        // Si el género seleccionado es "all" O si el género de la tarjeta coincide
-                        if (selectedGenre === "all" || selectedGenre === cardGenre) {
-                            card.classList.remove("hidden"); // Muestra la tarjeta
-                        } else {
-                            card.classList.add("hidden"); // Oculta la tarjeta
-                        }
-                    });
-                });
+            // Validar campos
+            let isValid = true;
+            
+            // Validar nombre
+            const firstName = document.getElementById('firstName').value.trim();
+            if (firstName === '') {
+                showError('firstNameError', 'firstName');
+                isValid = false;
+            }
+            
+            // Validar apellidos
+            const lastName = document.getElementById('lastName').value.trim();
+            if (lastName === '') {
+                showError('lastNameError', 'lastName');
+                isValid = false;
+            }
+            
+            // Validar email
+            const email = document.getElementById('email').value.trim();
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showError('emailError', 'email');
+                isValid = false;
+            }
+            
+            // Validar teléfono
+            const phone = document.getElementById('phone').value.trim();
+            const phoneRegex = /^[0-9+\-\s()]{10,}$/;
+            if (!phoneRegex.test(phone)) {
+                showError('phoneError', 'phone');
+                isValid = false;
+            }
+            
+            // Validar país
+            const country = document.getElementById('country').value;
+            if (country === '') {
+                showError('countryError', 'country');
+                isValid = false;
+            }
+            
+            // Validar género
+            const gender = document.querySelector('input[name="gender"]:checked');
+            if (!gender) {
+                showError('genderError');
+                isValid = false;
+            }
+            
+            // Validar intereses
+            const interests = document.querySelectorAll('input[name="interests"]:checked');
+            if (interests.length === 0) {
+                showError('interestsError');
+                isValid = false;
+            }
+            
+            // Si el formulario es válido
+            if (isValid) {
+                document.getElementById('successMessage').style.display = 'block';
+                document.getElementById('registrationForm').reset();
+                
+                // Ocultar mensaje después de 5 segundos
+                setTimeout(function() {
+                    document.getElementById('successMessage').style.display = 'none';
+                }, 5000);
+            }
+        });
+        
+        function showError(errorId, inputId = null) {
+            document.getElementById(errorId).style.display = 'block';
+            if (inputId) {
+                document.getElementById(inputId).classList.add('error');
+            }
+        }
+        
+        function resetErrors() {
+            const errorMessages = document.querySelectorAll('.error-message');
+            errorMessages.forEach(function(error) {
+                error.style.display = 'none';
+            });
+            
+            const errorInputs = document.querySelectorAll('.form-control.error');
+            errorInputs.forEach(function(input) {
+                input.classList.remove('error');
+            });
+            
+            document.getElementById('successMessage').style.display = 'none';
+        }
+        
+        // Remover clase error cuando el usuario empiece a escribir
+        const inputs = document.querySelectorAll('.form-control');
+        inputs.forEach(function(input) {
+            input.addEventListener('input', function() {
+                if (this.classList.contains('error')) {
+                    this.classList.remove('error');
+                    const errorId = this.id + 'Error';
+                    document.getElementById(errorId).style.display = 'none';
+                }
             });
         });
     </script>
-
 </body>
 </html>
